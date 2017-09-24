@@ -4,6 +4,8 @@
 
 ![](./img/happy_fox.gif)
 
- 然后没有了。。。。。。
- 
+## Article
+1. [About learning MySQL](./article/mysql.md)
+
+
 (~~未完待续~~)
