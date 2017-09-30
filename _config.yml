@@ -1,0 +1,49 @@
+# Site settings
+title: void0red's blog
+email: void0red@gmail.com
+description: NEVER GIVE UP
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "" # the base hostname & protocol for your site
+rss_url: /pages/feed.xml
+author: void0red
+
+# Sidebar filter
+# Choose 'tag' or 'category' as filter in sidebar.
+filter: 'tag'
+recent_num: 20
+
+# Social account
+#twitter: masonsuyan
+#weibo: void0red
+github: void0red
+#instagram: suyan0830
+#linkedin: suyan0830
+
+# avatar and Favicon
+avatar: /assets/img/avatar.jpg
+favicon: /assets/img/favicon.jpg
+
+# disqus config
+#disqus:
+#  shortname: suyan-zh
+
+# google analytics config
+#ga:
+#  id: UA-54767140-1
+#  url: yansu.org
+
+# Build settings
+permalink: /:year/:month/:day/:title.html
+markdown: kramdown
+highlighter: rouge
+mathjax: disabled
+sass:
+  style: compressed
+
+# Jekyll Plugin
+# https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/
+gems:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-feed
+

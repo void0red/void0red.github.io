@@ -1,11 +1,10 @@
-# My First Blog
+---
+title: "About Me"
+date: 2017-09-30
+layout: post
+---
 
->不如先发个滑稽吧
+> 不如先发个滑稽吧
 
-![](./img/happy_fox.gif)
+![](./pic/happy_fox.gif)
 
-## Article
-1. [About learning MySQL](./article/mysql.md)
-
-
-(~~未完待续~~)
