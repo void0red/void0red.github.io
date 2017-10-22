@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<div background="https://raw.githubusercontent.com/void0red/Pictures/master/Ubuntu_bk.jpeg">
+<body background="https://raw.githubusercontent.com/void0red/Pictures/master/Ubuntu_bk.jpeg">
 <article class="post container">
   <div class="post-meta">
     <span class="post-meta-span date">{{ page.date | date:"%Y %B %d" }}</span>
@@ -22,4 +22,4 @@ layout: default
   </div>
 </div>
 {% endif %}
-</div>>
+</body>
