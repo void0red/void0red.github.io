@@ -1,7 +1,7 @@
 ---
 title: "About Me"
 date: 2017-09-30
-layout: post_bg
+layout: post
 ---
 
 > 不如先发个滑稽吧
