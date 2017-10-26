@@ -1,5 +1,5 @@
 ---
-title: "汇编尝试"
+title: "try_assembly_0"
 date: 2017-10-21
 tag: bin
 layout: post
