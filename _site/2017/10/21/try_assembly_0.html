@@ -1,0 +1,107 @@
+<!DOCTYPE html> <html> <head> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /> <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]--> <meta name="author" content="void0red"> <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'> <link rel="shortcut icon" href="/assets/img/favicon.png" /> <link rel="stylesheet" href="/css/main.css"> <link rel="canonical" href="http://localhost:4000/2017/10/21/try_assembly_0.html"> <!-- Begin Jekyll SEO tag v2.3.0 --> <title>try_assembly_0 | void0red’s blog</title> <meta property="og:title" content="try_assembly_0" /> <meta name="author" content="void0red" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="if-else, while/for, switch-case 编译器：gcc (Ubuntu 5.4.0-6ubuntu1~16.04.4) 5.4.0 20160609" /> <meta property="og:description" content="if-else, while/for, switch-case 编译器：gcc (Ubuntu 5.4.0-6ubuntu1~16.04.4) 5.4.0 20160609" /> <link rel="canonical" href="http://localhost:4000/2017/10/21/try_assembly_0.html" /> <meta property="og:url" content="http://localhost:4000/2017/10/21/try_assembly_0.html" /> <meta property="og:site_name" content="void0red’s blog" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2017-10-21T00:00:00+08:00" /> <script type="application/ld+json"> {"name":null,"description":"if-else, while/for, switch-case 编译器：gcc (Ubuntu 5.4.0-6ubuntu1~16.04.4) 5.4.0 20160609","author":{"@type":"Person","name":"void0red"},"@type":"BlogPosting","url":"http://localhost:4000/2017/10/21/try_assembly_0.html","publisher":null,"image":null,"headline":"try_assembly_0","dateModified":"2017-10-21T00:00:00+08:00","datePublished":"2017-10-21T00:00:00+08:00","sameAs":null,"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/10/21/try_assembly_0.html"},"@context":"http://schema.org"}</script> <!-- End Jekyll SEO tag --> <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="" /> <script src="/assets/js/prefixfree.js"></script> </head> <body> <script type="text/javascript" color="153,102,204" opacity='1' src="/assets/js/canvas-nest.min.js"></script> <aside id="sidebar" class="open"> <div id="sidebar-left"> <a id="sidebar-avatar" href="/"> <img id="sidebar-avatar-img" alt="" src="/assets/img/avatar.jpg"/> </a> <div id="sidebar-social"> <a href="/pages/feed.xml" class="sidebar-social-icon feed"></a> <a href="mailto:void0red@gmail.com" class="sidebar-social-icon email"></a> <!-- Generate icon by yourself https://icomoon.io/app/#/select --> <a href="https://github.com/void0red" class="sidebar-social-icon github" target="_blank"></a> </div> <ul id="sidebar-tags"> <li class="sidebar-tag active" data-filter="recent">最新文章</li> <li class="sidebar-tag" data-filter="others">others</li> <li class="sidebar-tag" data-filter="c">c</li> <li class="sidebar-tag" data-filter="bin">bin</li> </ul> <div> <object type="application/x-shockwave-flash" style="outline:none;" data="/pic/hamster.swf" width="120" height="90"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object> </div> </div> <div id="sidebar-right"> <div id="search-box"> <input id="search-input" type="text" placeholder="Search" /> </div> <nav id="toc"> <a class="toc-link" data-tags="bin" href="/2017/10/21/try_assembly_0.html"> try_assembly_0 </a> <a class="toc-link" data-tags="others" href="/2017/10/13/Crawler.html"> Crawler Sharing </a> <a class="toc-link" data-tags="c" href="/2017/10/07/struct.html"> About learning c struct </a> <a class="toc-link" data-tags="c" href="/2017/10/07/linked_list.html"> About learning linked_list </a> <a class="toc-link" data-tags="others" href="/2017/09/24/mysql.html"> About learning MYSQL </a> </nav> </div> </aside> <main id="main" class="open"> <article class="post container"> <div class="post-meta"> <span class="post-meta-span date">2017 October 21</span> <span class="post-meta-span tag">bin</span> </div> <h1 class="post-title">try_assembly_0</h1> <blockquote> <p>if-else, while/for, switch-case</p> <p>编译器：<code class="highlighter-rouge">gcc (Ubuntu 5.4.0-6ubuntu1~16.04.4) 5.4.0 20160609</code></p> </blockquote> <h2 id="if-else">if-else</h2> <p>一段c的代码</p> <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">){</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"equal"</span><span class="p">);</span>
+	<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"233"</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div> <p>用<code class="highlighter-rouge">gcc -c if-else.c</code>得到目标文件</p> <p>用<code class="highlighter-rouge">objdump -S if-else.o</code>查看代码段的汇编</p> <div class="highlighter-rouge"><pre class="highlight"><code>   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	48 83 ec 10          	sub    $0x10,%rsp
+   8:	c7 45 f8 01 00 00 00 	movl   $0x1,-0x8(%rbp)
+   f:	c7 45 fc 02 00 00 00 	movl   $0x2,-0x4(%rbp)
+  16:	8b 45 f8             	mov    -0x8(%rbp),%eax
+  19:	3b 45 fc             	cmp    -0x4(%rbp),%eax
+  1c:	75 11                	jne    2f &lt;main+0x2f&gt;
+  1e:	bf 00 00 00 00       	mov    $0x0,%edi
+  23:	b8 00 00 00 00       	mov    $0x0,%eax
+  28:	e8 00 00 00 00       	callq  2d &lt;main+0x2d&gt;
+  2d:	eb 0f                	jmp    3e &lt;main+0x3e&gt;
+  2f:	bf 00 00 00 00       	mov    $0x0,%edi
+  34:	b8 00 00 00 00       	mov    $0x0,%eax
+  39:	e8 00 00 00 00       	callq  3e &lt;main+0x3e&gt;
+  3e:	b8 00 00 00 00       	mov    $0x0,%eax
+  43:	c9                   	leaveq 
+  44:	c3                   	retq   
+</code></pre></div> <p>理解：</p> <ul> <li>0-f：喜闻乐见的函数开头，压入rbp寄存器的值（保存堆栈帧的基址），把栈指针rsp保存到rbp，栈顶指针下移16字节，（为局部变量保留空间），把x=1,y=2,压入栈中</li> <li>16-1c：把x=1放入eax寄存器中，与y=2比较大小，如果不相等，跳转到2f处执行</li> <li>1e-28：调用printf的一套操作，清空edi，eax，然后调用</li> <li>2d：无条件跳转到3e段</li> <li>2f-39：同1e-28</li> <li>3e-44：喜闻乐见的函数结尾，把eax清零（返回值为0），恢复堆栈帧（恢复esp的值，弹出ebp的值），函数返回</li> </ul> <h2 id="whilefor">while/for</h2> <p>一段c代码</p> <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">x</span><span class="o">++</span><span class="p">){</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">while</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">){</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+		<span class="n">x</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div> <p>代码段的汇编</p> <div class="highlighter-rouge"><pre class="highlight"><code>   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	48 83 ec 10          	sub    $0x10,%rsp
+   8:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%rbp)
+   f:	eb 18                	jmp    29 &lt;main+0x29&gt;
+  11:	8b 45 f8             	mov    -0x8(%rbp),%eax
+  14:	89 c6                	mov    %eax,%esi
+  16:	bf 00 00 00 00       	mov    $0x0,%edi
+  1b:	b8 00 00 00 00       	mov    $0x0,%eax
+  20:	e8 00 00 00 00       	callq  25 &lt;main+0x25&gt;
+  25:	83 45 f8 01          	addl   $0x1,-0x8(%rbp)
+  29:	83 7d f8 09          	cmpl   $0x9,-0x8(%rbp)
+  2d:	7e e2                	jle    11 &lt;main+0x11&gt;
+  2f:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
+  36:	eb 18                	jmp    50 &lt;main+0x50&gt;
+  38:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  3b:	89 c6                	mov    %eax,%esi
+  3d:	bf 00 00 00 00       	mov    $0x0,%edi
+  42:	b8 00 00 00 00       	mov    $0x0,%eax
+  47:	e8 00 00 00 00       	callq  4c &lt;main+0x4c&gt;
+  4c:	83 45 fc 01          	addl   $0x1,-0x4(%rbp)
+  50:	83 7d fc 09          	cmpl   $0x9,-0x4(%rbp)
+  54:	7e e2                	jle    38 &lt;main+0x38&gt;
+  56:	b8 00 00 00 00       	mov    $0x0,%eax
+  5b:	c9                   	leaveq 
+  5c:	c3                   	retq   
+</code></pre></div> <p>理解：</p> <ul> <li>0-4：函数头部</li> <li>8：局部变量x=0入栈</li> <li>f：跳转29处</li> <li>11-20：打印x的值</li> <li>25：增加x的值</li> <li>29-2d：比较9与x的值，小于或等于时跳转11处</li> <li>2f：局部变量x=0入栈</li> <li>36：跳转50处</li> <li>38-47：打印x的值</li> <li>4c：增加x的值</li> <li>50-54：比较9与x的值，小于或等于时跳转38处</li> <li>56-5c：函数尾部</li> </ul> <p>（for和while的实现方式貌似差不多）</p> <h2 id="switch-case">switch-case</h2> <p>一段c代码</p> <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">switch</span><span class="p">(</span> <span class="n">x</span> <span class="p">){</span>
+		<span class="k">case</span> <span class="mi">0</span><span class="p">:</span><span class="n">printf</span><span class="p">(</span><span class="s">"case 0</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span><span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">1</span><span class="p">:</span><span class="n">printf</span><span class="p">(</span><span class="s">"case 1</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span><span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">2</span><span class="p">:</span><span class="n">printf</span><span class="p">(</span><span class="s">"case 2</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span><span class="k">break</span><span class="p">;</span>
+		<span class="k">default</span><span class="o">:</span><span class="n">printf</span><span class="p">(</span><span class="s">"default</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span><span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div> <p>代码段的汇编</p> <div class="highlighter-rouge"><pre class="highlight"><code>   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	48 83 ec 10          	sub    $0x10,%rsp
+   8:	c7 45 fc 01 00 00 00 	movl   $0x1,-0x4(%rbp)
+   f:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  12:	83 f8 01             	cmp    $0x1,%eax
+  15:	74 15                	je     2c &lt;main+0x2c&gt;
+  17:	83 f8 02             	cmp    $0x2,%eax
+  1a:	74 1c                	je     38 &lt;main+0x38&gt;
+  1c:	85 c0                	test   %eax,%eax
+  1e:	75 24                	jne    44 &lt;main+0x44&gt;
+  20:	bf 00 00 00 00       	mov    $0x0,%edi
+  25:	e8 00 00 00 00       	callq  2a &lt;main+0x2a&gt;
+  2a:	eb 23                	jmp    4f &lt;main+0x4f&gt;
+  2c:	bf 00 00 00 00       	mov    $0x0,%edi
+  31:	e8 00 00 00 00       	callq  36 &lt;main+0x36&gt;
+  36:	eb 17                	jmp    4f &lt;main+0x4f&gt;
+  38:	bf 00 00 00 00       	mov    $0x0,%edi
+  3d:	e8 00 00 00 00       	callq  42 &lt;main+0x42&gt;
+  42:	eb 0b                	jmp    4f &lt;main+0x4f&gt;
+  44:	bf 00 00 00 00       	mov    $0x0,%edi
+  49:	e8 00 00 00 00       	callq  4e &lt;main+0x4e&gt;
+  4e:	90                   	nop
+  4f:	b8 00 00 00 00       	mov    $0x0,%eax
+  54:	c9                   	leaveq 
+  55:	c3                   	retq   
+</code></pre></div> <p>理解：</p> <ul> <li>0-4：函数头部</li> <li>8：x = 1入栈</li> <li>f-1a：与1相比较，如果相等的话，跳转2c处，与2相比较，如果相等的话，跳转38处</li> <li>1c-1e：尝试x与x的and运算，只改变标志位C，O，如果结果不为0，跳转44处</li> <li>20-2a：调用printf函数，跳转4f处（case 0）</li> <li>2c-36：调用printf函数，跳转4f处（case 1）</li> <li>38-42：调用printf函数，跳转4f处（case 2）</li> <li>44-49：调用printf函数（default）</li> <li>4e：空指令</li> <li>4f-55：函数尾部</li> </ul> </article> <div class="footer"> <div class="container"> <p class="footer-entry">All content is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA</a></p> <p class="footer-entry">Buit with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> and <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll theme</a> • Hosted on <a href="https://pages.github.com/" target="_blank">Github</a></p> </div> </div> </main> <button id="menu" class="open"> <span id="menu-icons"></span> </button> <button id="post-toc-menu"> <span id="post-toc-menu-icons"></span> </button> <div id="post-toc"> <span id="post-toc-title">Table of Contents</span> <ul id="post-toc-ul"></ul> </div> <script src="/assets/js/jquery-2.1.3.min.js"></script> <script src="/assets/js/jquery.pjax.js"></script> <script src="/assets/js/nprogress.js"></script> <script src="/assets/js/main.js"></script> </body> </html>
