@@ -5,7 +5,7 @@ layout: compress
 <html>
   {% include head.html %}
   <body>
-  <script type="text/javascript" color="0,255,128" opacity='1' src="/assets/js/canvas-nest.min.js"></script>
+  <script type="text/javascript" color="173,255,47" opacity='1' src="/assets/js/canvas-nest.min.js"></script>
     {% include sidebar.html %}
 
     <main id="main" class="open">
