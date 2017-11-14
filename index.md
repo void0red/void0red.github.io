@@ -4,9 +4,8 @@ date: 2017-09-30
 layout: post
 ---
 
-> 不如先发个滑稽吧
+a boy who likes programming
 
-![](./pic/happy_fox.gif)
+~~LOLI must be true love~~
 
-侧边添加了小仓鼠插件，~~可以调戏~~
-
+![](./pic/yn.jpg)
