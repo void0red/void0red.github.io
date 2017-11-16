@@ -33,8 +33,6 @@ layout: post
 
 这里可以利用一个Linux下的特性，**lazy binding**，简单来说，GOT 表的初始值都指向 PLT 表对应条目中的某个片段，这个片段的作用是调用一个函数地址解析函数。当程序需要调用某个外部函数时，首先到 PLT 表内寻找对应的入口点，跳转到 GOT 表中。如果这是第一次调用这个函数，程序会通过 GOT 表再次跳转回 PLT 表，运行地址解析程序来确定函数的确切地址，并用其覆盖掉 GOT 表的初始值，之后再执行函数调用。当再次调用这个函数时，程序仍然首先通过 PLT 表跳转到 GOT 表，此时 GOT 表已经存有获取函数的内存地址，所以会直接跳转到函数所在地址执行函数。
 
-> In a nutshell, the loader will initially point the GOT entry for a library function to some codeak the address of a library function in the GOT. In this case, we’ll leak memset()’s GOT entry, which will give us memset()’s address. Get libc’s base address so we can calculate the address of other library functions. libc’s base address is the difference between memset()’s address, and memset()’s offset from libc.so.6. A library function’s address can be obtained by adding its offset from libc.so.6 to libc’s base address. In this case, we’ll get system()’s address. Overwrite a GOT entry’s address with system()’s address, so that when we call that function, it calls syst that will do a slow lookup of the function address. Once it finds it, it overwrites its GOT entry with the address of the library function so it doesn’t need to do the lookup again. That means the second time a library function is called, the GOT entry will point to that function’s address. That’s what we want to leak.
-
 第一次函数调用：
 ![第一次调用函数](https://raw.githubusercontent.com/void0red/Pictures/master/blog/leak_gotaddr_0.png)
 以后的函数调用：
