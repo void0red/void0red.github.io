@@ -1,6 +1,6 @@
 ---
 title: "About learning linked_list"
-data: 2017-10-24
+date: 2017-10-24
 tag: c
 layout: post
 ---
@@ -96,4 +96,3 @@ node * node_modify(node *head, int i, int data){
 	return p;
 }
 ```
-

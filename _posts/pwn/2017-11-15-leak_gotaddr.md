@@ -1,6 +1,6 @@
 ---
 title: leak_got_addr
-data: 2017-11-15
+date: 2017-11-15
 tag: pwn
 layout: post
 ---
@@ -114,7 +114,7 @@ layout: post
   4005d4:	74 20                	je     4005f6 <__libc_csu_init+0x56>
   4005d6:	31 db                	xor    %ebx,%ebx
   4005d8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
-  4005df:	00 
+  4005df:	00
   4005e0:	4c 89 ea             	mov    %r13,%rdx
   4005e3:	4c 89 f6             	mov    %r14,%rsi
   4005e6:	44 89 ff             	mov    %r15d,%edi
@@ -132,7 +132,7 @@ layout: post
   400604:	c3                   	retq   
   400605:	90                   	nop
   400606:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
-  40060d:	00 00 00 
+  40060d:	00 00 00
 ```
 
 可以看到从`0x4005fa`开始，进行了弹栈，可以控制`rbx，rbp，r12，r13，r14，r15`的值，配合`0x4005e0`处的指令，就可以控制`edi，rsi，rdx`的值了，要注意的是`0x4005f4`处有一个跳转指令，要让跳转失效，就必须让`rbp==rbx`，继续向前看，`0x4005ed`处让`rbx`加上了1，`0x4005e9`处的意思是调用`r12+rbx×8`处的指令，不妨让`rbx=0`，`rbp=1`
