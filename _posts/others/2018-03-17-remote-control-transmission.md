@@ -1,7 +1,7 @@
 ---
 title: remote control transmission
 date: 2018-03-17
-tag: other
+tag: others
 layout: post
 ---
 
