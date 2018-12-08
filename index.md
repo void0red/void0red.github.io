@@ -6,7 +6,7 @@ layout: post
 
 a boy who likes programming
 
-~~LOLI must be true love~~
+~~~~
 
 ![](./pic/yn.jpg)
 
