@@ -5,9 +5,3 @@ layout: post
 ---
 
 a boy who likes programming
-
-~~~~
-
-![](./pic/yn.jpg)
-
-我他妈是学不会了, 你们学吧.
